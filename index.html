@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MC Tiers | Ranking List</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <style>
+        body { background-color: #0f172a; color: white; }
+        .tier-card { transition: transform 0.2s; }
+        .tier-card:hover { transform: scale(1.01); background-color: #1e293b; }
+    </style>
+</head>
+<body class="p-4 md:p-10">
+
+    <div class="max-w-5xl mx-auto">
+        <div class="flex justify-between items-center mb-10">
+            <h1 class="text-3xl font-bold text-blue-400">MC<span class="text-white">TIERS</span></h1>
+            <input type="text" id="searchInput" placeholder="Search Player..." class="bg-slate-800 border border-slate-700 px-4 py-2 rounded-lg focus:outline-none focus:border-blue-500">
+        </div>
+
+        <div class="grid grid-cols-4 bg-slate-800 p-4 rounded-t-lg font-bold text-gray-400 text-sm uppercase tracking-wider">
+            <div>Player</div>
+            <div class="text-center">Tier</div>
+            <div class="text-center">UUID</div>
+            <div class="text-right">Status</div>
+        </div>
+
+        <div id="playerList" class="bg-slate-900 border border-slate-800 rounded-b-lg">
+            <div class="p-10 text-center text-gray-500">Loading players...</div>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. Your Firebase Configuration ---
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT.appspot.com",
+            messagingSenderId: "YOUR_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        const playerListContainer = document.getElementById('playerList');
+        const searchInput = document.getElementById('searchInput');
+
+        // --- 2. Function to Load Players ---
+        function loadPlayers(filter = "") {
+            db.collection("players").orderBy("tier", "asc").onSnapshot((querySnapshot) => {
+                playerListContainer.innerHTML = "";
+                querySnapshot.forEach((doc) => {
+                    const player = doc.data();
+                    
+                    // Simple Search Filter
+                    if(player.username.toLowerCase().includes(filter.toLowerCase())) {
+                        const row = `
+                            <div class="grid grid-cols-4 p-4 border-b border-slate-800 tier-card items-center">
+                                <div class="flex items-center gap-3">
+                                    <img src="https://cravatar.eu/avatar/${player.uuid}/32.png" class="rounded shadow-sm">
+                                    <span class="font-medium">${player.username}</span>
+                                </div>
+                                <div class="text-center">
+                                    <span class="px-3 py-1 rounded text-xs font-bold" style="background-color: ${player.color}22; color: ${player.color}; border: 1px solid ${player.color}44;">
+                                        ${player.tier}
+                                    </span>
+                                </div>
+                                <div class="text-center text-gray-500 text-xs font-mono truncate px-4">
+                                    ${player.uuid}
+                                </div>
+                                <div class="text-right text-green-500 text-sm italic">
+                                    Active
+                                </div>
+                            </div>
+                        `;
+                        playerListContainer.innerHTML += row;
+                    }
+                });
+            });
+        }
+
+        // Search Event
+        searchInput.addEventListener('input', (e) => {
+            loadPlayers(e.target.value);
+        });
+
+        // Initial Load
+        loadPlayers();
+    </script>
+</body>
+</html>
