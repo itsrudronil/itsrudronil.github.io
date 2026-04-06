@@ -8,74 +8,91 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     <style>
-        body { background-color: #0f172a; color: white; }
-        .tier-card { transition: transform 0.2s; }
-        .tier-card:hover { transform: scale(1.01); background-color: #1e293b; }
+        body { background-color: #0f172a; color: white; font-family: 'Inter', sans-serif; }
+        .tier-card { transition: all 0.2s; border-bottom: 1px solid #1e293b; }
+        .tier-card:hover { background-color: #1e293b; }
+        .tier-badge {
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
     </style>
 </head>
 <body class="p-4 md:p-10">
 
-    <div class="max-w-5xl mx-auto">
-        <div class="flex justify-between items-center mb-10">
-            <h1 class="text-3xl font-bold text-blue-400">MC<span class="text-white">TIERS</span></h1>
-            <input type="text" id="searchInput" placeholder="Search Player..." class="bg-slate-800 border border-slate-700 px-4 py-2 rounded-lg focus:outline-none focus:border-blue-500">
+    <div class="max-w-4xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-10 gap-4">
+            <h1 class="text-3xl font-extrabold text-blue-500 tracking-tighter">MC<span class="text-white">TIERS</span></h1>
+            <input type="text" id="searchInput" placeholder="Search Player Name..." 
+                class="w-full md:w-64 bg-slate-800 border border-slate-700 px-4 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm">
         </div>
 
-        <div class="grid grid-cols-4 bg-slate-800 p-4 rounded-t-lg font-bold text-gray-400 text-sm uppercase tracking-wider">
+        <div class="grid grid-cols-3 bg-slate-800/50 p-4 rounded-t-2xl font-semibold text-gray-400 text-xs uppercase tracking-widest border border-slate-700/50">
             <div>Player</div>
-            <div class="text-center">Tier</div>
-            <div class="text-center">UUID</div>
+            <div class="text-center">Skill Tier</div>
             <div class="text-right">Status</div>
         </div>
 
-        <div id="playerList" class="bg-slate-900 border border-slate-800 rounded-b-lg">
-            <div class="p-10 text-center text-gray-500">Loading players...</div>
+        <div id="playerList" class="bg-slate-900/50 border-x border-b border-slate-800 rounded-b-2xl overflow-hidden">
+            <div class="p-20 text-center">
+                <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-blue-500 mb-4"></div>
+                <p class="text-gray-500 text-sm italic">Fetching rankings...</p>
+            </div>
         </div>
+        
+        <p class="mt-6 text-center text-gray-600 text-xs">Data synced with Firebase Realtime Database</p>
     </div>
 
     <script>
-        // --- 1. Your Firebase Configuration ---
+        // --- Firebase Configuration ---
+        // আপনার Firebase Console থেকে নিচের তথ্যগুলো পরিবর্তন করুন
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_PROJECT.firebaseapp.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT.appspot.com",
-            messagingSenderId: "YOUR_ID",
-            appId: "YOUR_APP_ID"
+            apiKey: "AIzaSyDAmbvBXIxr4StYtg5obkL7ScKadmAluXU",
+            authDomain: "tiers-a0f66.firebaseapp.com",
+            projectId: "tiers-a0f66",
+            storageBucket: "tiers-a0f66.firebasestorage.app",
+            messagingSenderId: "394254274051",
+            appId: "1:394254274051:web:b5604e1ff286b90f870836"
         };
 
-        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
         const playerListContainer = document.getElementById('playerList');
         const searchInput = document.getElementById('searchInput');
 
-        // --- 2. Function to Load Players ---
-        function loadPlayers(filter = "") {
+        // --- Function to Load & Display Players ---
+        function renderPlayers(filter = "") {
             db.collection("players").orderBy("tier", "asc").onSnapshot((querySnapshot) => {
                 playerListContainer.innerHTML = "";
+                
+                if (querySnapshot.empty) {
+                    playerListContainer.innerHTML = `<div class="p-10 text-center text-gray-500">No players found.</div>`;
+                    return;
+                }
+
                 querySnapshot.forEach((doc) => {
                     const player = doc.data();
                     
-                    // Simple Search Filter
+                    // Search Filter Logic
                     if(player.username.toLowerCase().includes(filter.toLowerCase())) {
                         const row = `
-                            <div class="grid grid-cols-4 p-4 border-b border-slate-800 tier-card items-center">
-                                <div class="flex items-center gap-3">
-                                    <img src="https://cravatar.eu/avatar/${player.uuid}/32.png" class="rounded shadow-sm">
-                                    <span class="font-medium">${player.username}</span>
+                            <div class="grid grid-cols-3 p-5 items-center tier-card">
+                                <div class="flex items-center gap-4">
+                                    <img src="https://cravatar.eu/avatar/${player.uuid}/40.png" 
+                                         class="rounded-lg shadow-lg border border-slate-700 bg-slate-800"
+                                         onerror="this.src='https://minotar.net/avatar/steve/40.png'">
+                                    <span class="font-semibold text-slate-200">${player.username}</span>
                                 </div>
+
                                 <div class="text-center">
-                                    <span class="px-3 py-1 rounded text-xs font-bold" style="background-color: ${player.color}22; color: ${player.color}; border: 1px solid ${player.color}44;">
+                                    <span class="tier-badge px-4 py-1.5 rounded-full text-[10px] font-black" 
+                                          style="background-color: ${player.color}15; color: ${player.color}; border: 1.5px solid ${player.color}40;">
                                         ${player.tier}
                                     </span>
                                 </div>
-                                <div class="text-center text-gray-500 text-xs font-mono truncate px-4">
-                                    ${player.uuid}
-                                </div>
-                                <div class="text-right text-green-500 text-sm italic">
-                                    Active
+
+                                <div class="text-right">
+                                    <span class="text-xs font-medium text-emerald-500 bg-emerald-500/10 px-2 py-1 rounded">Verified</span>
                                 </div>
                             </div>
                         `;
@@ -85,13 +102,13 @@
             });
         }
 
-        // Search Event
+        // Live Search Handler
         searchInput.addEventListener('input', (e) => {
-            loadPlayers(e.target.value);
+            renderPlayers(e.target.value);
         });
 
-        // Initial Load
-        loadPlayers();
+        // Start Initial Render
+        renderPlayers();
     </script>
 </body>
 </html>
