@@ -1,0 +1,13 @@
+.glass-container {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+}
+
+tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+input:focus {
+    border-color: #3b82f6;
+    outline: none;
+}
