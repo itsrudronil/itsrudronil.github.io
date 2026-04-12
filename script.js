@@ -1,84 +1,98 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, collection, setDoc, doc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-// --- Firebase Config (আপনার কনসোল থেকে এগুলো পরিবর্তন করুন) ---
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyDAmbvBXIxr4StYtg5obkL7ScKadmAluXU",
+  authDomain: "tiers-a0f66.firebaseapp.com",
+  projectId: "tiers-a0f66",
+  storageBucket: "tiers-a0f66.firebasestorage.app",
+  messagingSenderId: "394254274051",
+  appId: "1:394254274051:web:b5604e1ff286b90f870836"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app);
 
-// ১. অ্যাডমিন প্যানেলে ডাটা সেভ করার লজিক (admin.html এর জন্য)
+// ১. লগইন লজিক
+const loginBtn = document.getElementById('loginBtn');
+if (loginBtn) {
+    loginBtn.onclick = async () => {
+        const email = document.getElementById('adminEmail').value;
+        const pass = document.getElementById('adminPassword').value;
+        try {
+            await signInWithEmailAndPassword(auth, email, pass);
+            alert("Login Successful!");
+        } catch (e) {
+            alert("ভুল ইমেইল বা পাসওয়ার্ড!");
+        }
+    };
+}
+
+// ২. লগআউট লজিক
+const logoutBtn = document.getElementById('logoutBtn');
+if (logoutBtn) {
+    logoutBtn.onclick = () => signOut(auth);
+}
+
+// ৩. অটো-চেক: ইউজার লগইন করা আছে কি না
+const loginSection = document.getElementById('login-section');
+const adminPanel = document.getElementById('admin-panel');
+
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        if(loginSection) loginSection.classList.add('hidden');
+        if(adminPanel) adminPanel.classList.remove('hidden');
+    } else {
+        if(loginSection) loginSection.classList.remove('hidden');
+        if(adminPanel) adminPanel.classList.add('hidden');
+    }
+});
+
+// ৪. প্লেয়ার সেভ করার লজিক (শুধুমাত্র লগইন থাকলে কাজ করবে)
 const saveBtn = document.getElementById('saveBtn');
 if (saveBtn) {
     saveBtn.onclick = async () => {
         const name = document.getElementById('pName').value.trim();
         const tier = document.getElementById('pTier').value.trim();
-        const head = document.getElementById('pHead').value.trim(); // আপনি যে কাস্টম ছবির লিঙ্ক দিবেন
+        const head = document.getElementById('pHead').value.trim();
 
-        if (!name || !tier) {
-            return alert("দয়া করে নাম এবং টিয়ার ইনপুট দিন!");
-        }
+        if (!name || !tier) return alert("সব তথ্য দিন!");
 
         try {
-            // Firestore-এ প্লেয়ারের ডাটা সেভ করা
             await setDoc(doc(db, "players", name), {
                 username: name,
                 tier: tier,
-                headUrl: head || `https://mc-heads.net/avatar/${name}`, // লিঙ্ক না দিলে অটো-সার্চ
+                headUrl: head || `https://mc-heads.net/avatar/${name}`,
                 timestamp: Date.now()
             });
-            
-            alert("Player added successfully!");
-            // ইনপুট বক্স খালি করা
+            alert("Player Saved!");
             document.getElementById('pName').value = "";
             document.getElementById('pTier').value = "";
             document.getElementById('pHead').value = "";
-        } catch (e) {
-            console.error("Error saving data: ", e);
-            alert("কিছু একটা সমস্যা হয়েছে! কনসোল চেক করুন।");
-        }
+        } catch (e) { alert("Error: Permission Denied!"); }
     };
 }
 
-// ২. হোমপেজে রিয়েল-টাইম ডাটা দেখানোর লজিক (index.html এর জন্য)
+// ৫. ইনডেক্স পেজে ডাটা দেখানো (আগের মতোই থাকবে)
 const tierBody = document.getElementById('tier-body');
 if (tierBody) {
-    // timestamp অনুযায়ী সাজানো (নতুন প্লেয়ার সবার উপরে থাকবে)
     const q = query(collection(db, "players"), orderBy("timestamp", "desc"));
-    
     onSnapshot(q, (snapshot) => {
-        tierBody.innerHTML = ""; // আগের ডাটা ক্লিয়ার করা
-        
+        tierBody.innerHTML = "";
         snapshot.forEach((doc) => {
             const p = doc.data();
-            
-            // আপনার দেওয়া ছবির মতো গোল/বক্স ডিজাইন সেট করা হয়েছে এখানে
-            const row = `
-                <tr class="border-b border-gray-800 hover:bg-white/5 transition duration-200">
+            tierBody.innerHTML += `
+                <tr class="border-b border-gray-800">
                     <td class="p-4 flex items-center space-x-4">
-                        <div class="relative">
-                            <img src="${p.headUrl}" 
-                                 class="w-12 h-12 rounded-lg border-2 border-gray-700 shadow-xl object-cover"
-                                 onerror="this.src='https://mc-heads.net/avatar/steve'">
-                            <div class="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 border-2 border-[#0b0e14] rounded-full"></div>
-                        </div>
-                        <span class="font-bold text-gray-200 text-lg tracking-wide">${p.username}</span>
+                        <img src="${p.headUrl}" class="w-12 h-12 rounded-lg border border-gray-700 shadow-lg object-cover" onerror="this.src='https://mc-heads.net/avatar/steve'">
+                        <span class="font-bold text-gray-200">${p.username}</span>
                     </td>
                     <td class="p-4 text-right">
-                        <span class="bg-blue-600/20 text-blue-400 px-4 py-1 rounded-full border border-blue-500/30 text-xs font-black uppercase tracking-widest shadow-sm">
-                            ${p.tier}
-                        </span>
+                        <span class="bg-blue-600/20 text-blue-400 px-3 py-1 rounded border border-blue-500/30 text-xs font-bold uppercase">${p.tier}</span>
                     </td>
-                </tr>
-            `;
-            tierBody.innerHTML += row;
+                </tr>`;
         });
     });
 }
