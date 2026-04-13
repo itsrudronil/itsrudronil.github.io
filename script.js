@@ -2,6 +2,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebas
 import { getFirestore, collection, setDoc, doc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
+// ১. আপনার Firebase Config এখানে আপডেট করুন
 const firebaseConfig = {
   apiKey: "AIzaSyDAmbvBXIxr4StYtg5obkL7ScKadmAluXU",
   authDomain: "tiers-a0f66.firebaseapp.com",
@@ -15,42 +16,30 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-// ১. লগইন লজিক
+// --- Admin Auth Logic ---
 const loginBtn = document.getElementById('loginBtn');
 if (loginBtn) {
     loginBtn.onclick = async () => {
         const email = document.getElementById('adminEmail').value;
         const pass = document.getElementById('adminPassword').value;
-        try {
-            await signInWithEmailAndPassword(auth, email, pass);
-            alert("Login Successful!");
-        } catch (e) {
-            alert("ভুল ইমেইল বা পাসওয়ার্ড!");
-        }
+        try { await signInWithEmailAndPassword(auth, email, pass); alert("Logged In!"); } 
+        catch (e) { alert("Login Error!"); }
     };
 }
 
-// ২. লগআউট লজিক
-const logoutBtn = document.getElementById('logoutBtn');
-if (logoutBtn) {
-    logoutBtn.onclick = () => signOut(auth);
-}
-
-// ৩. অটো-চেক: ইউজার লগইন করা আছে কি না
-const loginSection = document.getElementById('login-section');
-const adminPanel = document.getElementById('admin-panel');
-
 onAuthStateChanged(auth, (user) => {
+    const loginSec = document.getElementById('login-section');
+    const adminPan = document.getElementById('admin-panel');
     if (user) {
-        if(loginSection) loginSection.classList.add('hidden');
-        if(adminPanel) adminPanel.classList.remove('hidden');
+        if(loginSec) loginSec.classList.add('hidden');
+        if(adminPan) adminPan.classList.remove('hidden');
     } else {
-        if(loginSection) loginSection.classList.remove('hidden');
-        if(adminPanel) adminPanel.classList.add('hidden');
+        if(loginSec) loginSec.classList.remove('hidden');
+        if(adminPan) adminPan.classList.add('hidden');
     }
 });
 
-// ৪. প্লেয়ার সেভ করার লজিক (শুধুমাত্র লগইন থাকলে কাজ করবে)
+// ২. Player Save Function (Admin Panel এর জন্য)
 const saveBtn = document.getElementById('saveBtn');
 if (saveBtn) {
     saveBtn.onclick = async () => {
@@ -58,24 +47,22 @@ if (saveBtn) {
         const tier = document.getElementById('pTier').value.trim();
         const head = document.getElementById('pHead').value.trim();
 
-        if (!name || !tier) return alert("সব তথ্য দিন!");
+        if (!name || !tier || !head) return alert("All fields are required!");
 
         try {
             await setDoc(doc(db, "players", name), {
                 username: name,
                 tier: tier,
-                headUrl: head || `https://mc-heads.net/avatar/${name}`,
+                headUrl: head,
                 timestamp: Date.now()
             });
-            alert("Player Saved!");
-            document.getElementById('pName').value = "";
-            document.getElementById('pTier').value = "";
-            document.getElementById('pHead').value = "";
-        } catch (e) { alert("Error: Permission Denied!"); }
+            alert("Player added to rankings!");
+            document.querySelectorAll('input').forEach(i => i.value = "");
+        } catch (e) { console.error(e); }
     };
 }
 
-// ৫. ইনডেক্স পেজে ডাটা দেখানো (আগের মতোই থাকবে)
+// ৩. Real-time Tier List Display (Home Page এর জন্য)
 const tierBody = document.getElementById('tier-body');
 if (tierBody) {
     const q = query(collection(db, "players"), orderBy("timestamp", "desc"));
@@ -83,16 +70,28 @@ if (tierBody) {
         tierBody.innerHTML = "";
         snapshot.forEach((doc) => {
             const p = doc.data();
+            
+            // এই Row-টি আপনার ম্যানুয়াল PNG ছবিকে সুন্দরভাবে শো করবে
             tierBody.innerHTML += `
-                <tr class="border-b border-gray-800">
-                    <td class="p-4 flex items-center space-x-4">
-                        <img src="${p.headUrl}" class="w-12 h-12 rounded-lg border border-gray-700 shadow-lg object-cover" onerror="this.src='https://mc-heads.net/avatar/steve'">
-                        <span class="font-bold text-gray-200">${p.username}</span>
+                <tr class="group">
+                    <td class="px-8 py-5 flex items-center space-x-6">
+                        <div class="w-20 h-20 avatar-box rounded-2xl border border-gray-800/50 flex items-center justify-center p-2 relative overflow-hidden">
+                            <img src="${p.headUrl}" 
+                                 class="w-full h-full object-contain drop-shadow-[0_10px_15px_rgba(0,0,0,0.8)] transition-transform duration-500 group-hover:scale-110" 
+                                 alt="Skin">
+                        </div>
+                        <div>
+                            <span class="text-xl font-bold text-gray-100 tracking-tight group-hover:text-blue-400 transition">${p.username}</span>
+                            <p class="text-[9px] text-gray-600 uppercase font-black tracking-[0.2em] mt-1">Cracked Verified</p>
+                        </div>
                     </td>
-                    <td class="p-4 text-right">
-                        <span class="bg-blue-600/20 text-blue-400 px-3 py-1 rounded border border-blue-500/30 text-xs font-bold uppercase">${p.tier}</span>
+                    <td class="px-8 py-5 text-right">
+                        <span class="inline-block px-6 py-2 rounded-lg glass-badge text-blue-400 text-xs font-black shadow-lg border border-blue-500/20">
+                            ${p.tier}
+                        </span>
                     </td>
-                </tr>`;
+                </tr>
+            `;
         });
     });
 }
