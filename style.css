@@ -1,26 +1,16 @@
 body {
-    background-color: #05070a; /* Deep dark background */
+    background-color: #05070a;
     color: white;
     font-family: 'Inter', sans-serif;
+    letter-spacing: -0.02em;
 }
 
-/* Row Hover Effect */
+/* স্মুথ ট্রানজিশন */
 tr {
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-tr:hover {
-    background: rgba(59, 130, 246, 0.04);
-}
-
-/* Avatar Container Styling */
+/* ১ নম্বর র‍্যাঙ্কের জন্য বিশেষ গ্লো */
 .avatar-box {
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(0,0,0,0) 70%);
-}
-
-/* সুন্দর গ্লাস এফেক্ট */
-.glass-badge {
-    background: rgba(59, 130, 246, 0.1);
-    backdrop-filter: blur(5px);
-    border: 1px border rgba(59, 130, 246, 0.2);
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, rgba(0,0,0,0) 80%);
 }
