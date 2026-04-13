@@ -3,26 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MC Tier List | Home</title>
+    <title>MC Tiers | Bangladesh</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-[#0b0e14] text-white p-5 md:p-10">
+<body class="p-4 md:p-12">
 
-    <div class="max-w-4xl mx-auto flex justify-between items-center mb-10">
-        <h1 class="text-3xl font-extrabold text-blue-500">MC<span class="text-white">TIERS</span></h1>
-        <a href="admin.html" class="text-gray-500 hover:text-white text-sm">Staff Login</a>
+    <div class="max-w-5xl mx-auto flex justify-between items-center mb-12">
+        <div class="flex items-center space-x-3">
+            <div class="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center font-black text-2xl italic shadow-lg shadow-blue-900/40">M</div>
+            <h1 class="text-2xl font-black tracking-tighter uppercase italic">CTIERS <span class="text-blue-500">BD</span></h1>
+        </div>
+        <a href="admin.html" class="text-gray-500 hover:text-blue-400 text-xs font-bold uppercase tracking-[0.2em] transition border-b border-transparent hover:border-blue-400">Staff Portal</a>
     </div>
 
-    <div class="max-w-4xl mx-auto glass-container rounded-xl overflow-hidden border border-gray-800 shadow-2xl">
+    <div class="max-w-5xl mx-auto border border-gray-800/50 rounded-2xl overflow-hidden shadow-2xl bg-[#0b0e14]">
         <table class="w-full text-left">
-            <thead class="bg-gray-900/50 text-gray-400 text-sm uppercase">
-                <tr>
-                    <th class="p-4">Player</th>
-                    <th class="p-4 text-right">Tier</th>
+            <thead>
+                <tr class="bg-gray-900/80 text-gray-500 text-[10px] uppercase tracking-[0.3em] font-black border-b border-gray-800">
+                    <th class="px-8 py-6">Player</th>
+                    <th class="px-8 py-6 text-right">Tier</th>
                 </tr>
             </thead>
-            <tbody id="tier-body">
+            <tbody id="tier-body" class="divide-y divide-gray-800/50">
                 </tbody>
         </table>
     </div>
