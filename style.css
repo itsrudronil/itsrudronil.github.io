@@ -1,13 +1,26 @@
-.glass-container {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(10px);
+body {
+    background-color: #05070a; /* Deep dark background */
+    color: white;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Row Hover Effect */
+tr {
+    transition: all 0.3s ease;
 }
 
 tr:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(59, 130, 246, 0.04);
 }
 
-input:focus {
-    border-color: #3b82f6;
-    outline: none;
+/* Avatar Container Styling */
+.avatar-box {
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(0,0,0,0) 70%);
+}
+
+/* সুন্দর গ্লাস এফেক্ট */
+.glass-badge {
+    background: rgba(59, 130, 246, 0.1);
+    backdrop-filter: blur(5px);
+    border: 1px border rgba(59, 130, 246, 0.2);
 }
