@@ -3,84 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard | MC Tiers</title>
+    <title>Staff Dashboard | MC Tiers</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background-color: #0b0e14; color: white; }
+        body { background-color: #05070a; color: white; }
         .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); }
-        input:focus { border-color: #3b82f6; box-shadow: 0 0 10px rgba(59, 130, 246, 0.2); }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-5">
+<body class="min-h-screen flex items-center justify-center p-6">
 
     <div class="w-full max-w-lg">
-        
         <div id="login-section" class="glass p-8 rounded-2xl border border-gray-800 shadow-2xl">
-            <div class="text-center mb-8">
-                <h1 class="text-3xl font-extrabold text-blue-500 uppercase tracking-widest">Admin Login</h1>
-                <p class="text-gray-500 text-sm mt-2">Only authorized staff can access this panel</p>
+            <h2 class="text-2xl font-black text-blue-500 mb-6 uppercase text-center">Admin Login</h2>
+            <div class="space-y-4">
+                <input type="email" id="adminEmail" placeholder="Staff Email" class="w-full bg-black border border-gray-700 p-3 rounded-lg outline-none focus:border-blue-500">
+                <input type="password" id="adminPassword" placeholder="Password" class="w-full bg-black border border-gray-700 p-3 rounded-lg outline-none focus:border-blue-500">
+                <button id="loginBtn" class="w-full bg-blue-600 hover:bg-blue-700 font-bold py-3 rounded-lg transition">Login</button>
+            </div>
+        </div>
+
+        <div id="admin-panel" class="hidden glass p-8 rounded-2xl border border-blue-600 shadow-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold text-blue-400 italic underline">Update Rankings</h2>
+                <button id="logoutBtn" class="text-xs text-red-500 font-bold">LOGOUT</button>
             </div>
             
             <div class="space-y-4">
-                <div>
-                    <label class="block text-xs text-gray-400 mb-1 ml-1 uppercase font-bold">Admin Email</label>
-                    <input type="email" id="adminEmail" placeholder="admin@example.com" 
-                        class="w-full bg-black/50 border border-gray-700 p-3 rounded-lg text-white outline-none transition">
-                </div>
-                <div>
-                    <label class="block text-xs text-gray-400 mb-1 ml-1 uppercase font-bold">Password</label>
-                    <input type="password" id="adminPassword" placeholder="••••••••" 
-                        class="w-full bg-black/50 border border-gray-700 p-3 rounded-lg text-white outline-none transition">
-                </div>
-                <button id="loginBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg shadow-lg shadow-blue-900/20 transition-all duration-300 transform hover:scale-[1.02]">
-                    Login to Dashboard
-                </button>
+                <input type="text" id="pName" placeholder="Player Username" class="w-full bg-black border border-gray-700 p-3 rounded-lg">
+                <input type="text" id="pTier" placeholder="Tier (e.g. HT3)" class="w-full bg-black border border-gray-700 p-3 rounded-lg">
+                <input type="text" id="pMode" placeholder="Gamemode (e.g. Crystal, Axe, Sword)" class="w-full bg-black border border-gray-700 p-3 rounded-lg">
+                <input type="text" id="pHead" placeholder="Manual PNG Link (Transparent)" class="w-full bg-black border border-gray-700 p-3 rounded-lg">
+                <button id="saveBtn" class="w-full bg-green-600 hover:bg-green-700 font-bold py-3 rounded-lg">Save Player</button>
             </div>
         </div>
-
-        <div id="admin-panel" class="hidden glass p-8 rounded-2xl border border-blue-900 shadow-2xl">
-            <div class="flex justify-between items-center mb-8">
-                <div>
-                    <h2 class="text-2xl font-bold text-blue-400">Add Player</h2>
-                    <p class="text-xs text-gray-500 italic">For Cracked Players (Manual Head)</p>
-                </div>
-                <button id="logoutBtn" class="bg-red-900/20 text-red-500 border border-red-900/50 px-3 py-1 rounded-md text-xs font-bold hover:bg-red-500 hover:text-white transition">
-                    Logout
-                </button>
-            </div>
-            
-            <div class="space-y-5">
-                <div>
-                    <label class="block text-xs text-gray-400 mb-1 ml-1 uppercase font-bold text-blue-500/70">Player Username</label>
-                    <input type="text" id="pName" placeholder="e.g. Rudronil_OP" 
-                        class="w-full bg-black/50 border border-gray-700 p-3 rounded-lg text-white outline-none">
-                </div>
-
-                <div>
-                    <label class="block text-xs text-gray-400 mb-1 ml-1 uppercase font-bold text-blue-500/70">Assigned Tier</label>
-                    <input type="text" id="pTier" placeholder="e.g. HT3 / LT1" 
-                        class="w-full bg-black/50 border border-gray-700 p-3 rounded-lg text-white outline-none">
-                </div>
-
-                <div>
-                    <label class="block text-xs text-gray-400 mb-1 ml-1 uppercase font-bold text-blue-500/70">Head Image URL</label>
-                    <input type="text" id="pHead" placeholder="Direct link from Imgur/Discord" 
-                        class="w-full bg-black/50 border border-gray-700 p-3 rounded-lg text-white outline-none">
-                    <p class="text-[10px] text-gray-600 mt-1">*আপনার ওই স্ক্রিনশট বা কাস্টম ছবির ডিরেক্ট লিঙ্ক এখানে দিন।</p>
-                </div>
-
-                <button id="saveBtn" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl shadow-lg transition-all active:scale-95">
-                    Save Player to Database
-                </button>
-            </div>
-        </div>
-
-        <div class="text-center mt-8">
-            <a href="index.html" class="text-gray-500 hover:text-blue-400 text-sm transition font-medium">
-                &larr; Return to Public Leaderboard
-            </a>
-        </div>
-
+        
+        <a href="index.html" class="block text-center mt-6 text-gray-500 hover:text-white transition text-sm">← Back to Leaderboard</a>
     </div>
 
     <script type="module" src="script.js"></script>
