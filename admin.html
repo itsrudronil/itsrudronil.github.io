@@ -3,41 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Staff Dashboard | MC Tiers</title>
+    <title>Staff Portal | MC Tiers</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background-color: #05070a; color: white; }
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); }
+        body { background-color: #05070a; color: white; font-family: 'Inter', sans-serif; }
+        .glass { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(15px); }
     </style>
 </head>
 <body class="min-h-screen flex items-center justify-center p-6">
 
-    <div class="w-full max-w-lg">
-        <div id="login-section" class="glass p-8 rounded-2xl border border-gray-800 shadow-2xl">
-            <h2 class="text-2xl font-black text-blue-500 mb-6 uppercase text-center">Admin Login</h2>
+    <div class="w-full max-w-md">
+        <div id="login-section" class="glass p-10 rounded-3xl border border-gray-800 shadow-2xl">
+            <h2 class="text-3xl font-black text-blue-500 mb-8 uppercase text-center tracking-tighter italic">Staff Login</h2>
             <div class="space-y-4">
-                <input type="email" id="adminEmail" placeholder="Staff Email" class="w-full bg-black border border-gray-700 p-3 rounded-lg outline-none focus:border-blue-500">
-                <input type="password" id="adminPassword" placeholder="Password" class="w-full bg-black border border-gray-700 p-3 rounded-lg outline-none focus:border-blue-500">
-                <button id="loginBtn" class="w-full bg-blue-600 hover:bg-blue-700 font-bold py-3 rounded-lg transition">Login</button>
+                <input type="email" id="adminEmail" placeholder="Email" class="w-full bg-black/50 border border-gray-700 p-4 rounded-xl outline-none focus:border-blue-500 transition">
+                <input type="password" id="adminPassword" placeholder="Password" class="w-full bg-black/50 border border-gray-700 p-4 rounded-xl outline-none focus:border-blue-500 transition">
+                <button id="loginBtn" class="w-full bg-blue-600 hover:bg-blue-700 font-black py-4 rounded-xl transition-all active:scale-95 shadow-lg shadow-blue-600/20">Authorize Access</button>
             </div>
         </div>
 
-        <div id="admin-panel" class="hidden glass p-8 rounded-2xl border border-blue-600 shadow-2xl">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-xl font-bold text-blue-400 italic underline">Update Rankings</h2>
-                <button id="logoutBtn" class="text-xs text-red-500 font-bold">LOGOUT</button>
+        <div id="admin-panel" class="hidden glass p-10 rounded-3xl border border-blue-600/30 shadow-2xl">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-xl font-black text-blue-400 uppercase italic">Update List</h2>
+                <button id="logoutBtn" class="text-[10px] text-red-500 font-black border border-red-500/30 px-3 py-1 rounded-lg">LOGOUT</button>
             </div>
             
             <div class="space-y-4">
-                <input type="text" id="pName" placeholder="Player Username" class="w-full bg-black border border-gray-700 p-3 rounded-lg">
-                <input type="text" id="pTier" placeholder="Tier (e.g. HT3)" class="w-full bg-black border border-gray-700 p-3 rounded-lg">
-                <input type="text" id="pMode" placeholder="Gamemode (e.g. Crystal, Axe, Sword)" class="w-full bg-black border border-gray-700 p-3 rounded-lg">
-                <input type="text" id="pHead" placeholder="Manual PNG Link (Transparent)" class="w-full bg-black border border-gray-700 p-3 rounded-lg">
-                <button id="saveBtn" class="w-full bg-green-600 hover:bg-green-700 font-bold py-3 rounded-lg">Save Player</button>
+                <input type="text" id="pName" placeholder="Player IGN" class="w-full bg-black/50 border border-gray-700 p-3 rounded-lg">
+                <input type="text" id="pTier" placeholder="Tier (e.g. HT3)" class="w-full bg-black/50 border border-gray-700 p-3 rounded-lg">
+                <input type="text" id="pMode" placeholder="Gamemode (e.g. Crystal)" class="w-full bg-black/50 border border-gray-700 p-3 rounded-lg">
+                <input type="text" id="pHead" placeholder="Custom PNG Link" class="w-full bg-black/50 border border-gray-700 p-3 rounded-lg">
+                <button id="saveBtn" class="w-full bg-green-600 hover:bg-green-700 font-black py-4 rounded-xl transition-all shadow-lg shadow-green-600/10">Publish Entry</button>
             </div>
         </div>
         
-        <a href="index.html" class="block text-center mt-6 text-gray-500 hover:text-white transition text-sm">← Back to Leaderboard</a>
+        <a href="index.html" class="block text-center mt-8 text-gray-600 hover:text-white transition text-xs font-bold uppercase tracking-widest">← Return to Public Tiers</a>
     </div>
 
     <script type="module" src="script.js"></script>
