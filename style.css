@@ -2,15 +2,15 @@ body {
     background-color: #05070a;
     color: white;
     font-family: 'Inter', sans-serif;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
 }
 
-/* স্মুথ ট্রানজিশন */
+/* শ্যাডো এবং বর্ডার ট্রানজিশন */
 tr {
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: background 0.4s ease;
 }
 
-/* ১ নম্বর র‍্যাঙ্কের জন্য বিশেষ গ্লো */
-.avatar-box {
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, rgba(0,0,0,0) 80%);
+/* কাস্টম ছবির জন্য গ্লো */
+img {
+    filter: saturate(1.2);
 }
