@@ -3,40 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Staff Portal | MC Tiers</title>
+    <title>Staff Dashboard | Multi-Mode Ranking</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background-color: #05070a; color: white; }
+        body { background-color: #05070a; color: white; font-family: 'Inter', sans-serif; }
         .glass { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(15px); }
+        input { background: rgba(0,0,0,0.5) !important; border: 1px solid #1f2937 !important; color: white !important; padding: 0.5rem 1rem !important; border-radius: 0.5rem; outline: none; transition: 0.3s; }
+        input:focus { border-color: #3b82f6 !important; }
+        .mode-label { font-size: 10px; font-weight: 900; color: #3b82f6; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; display: block; }
     </style>
 </head>
 <body class="min-h-screen flex items-center justify-center p-6">
 
-    <div class="w-full max-w-md">
-        <div id="login-section" class="glass p-10 rounded-3xl border border-gray-800 shadow-2xl">
-            <h2 class="text-2xl font-black text-blue-500 mb-6 uppercase text-center italic">Staff Login</h2>
-            <div class="space-y-4">
-                <input type="email" id="adminEmail" placeholder="Email" class="w-full bg-black/50 border border-gray-700 p-4 rounded-xl outline-none text-white">
-                <input type="password" id="adminPassword" placeholder="Password" class="w-full bg-black/50 border border-gray-700 p-4 rounded-xl outline-none text-white">
+    <div class="w-full max-w-2xl">
+        <div id="login-section" class="glass p-10 rounded-3xl border border-gray-800 shadow-2xl text-center">
+            <h2 class="text-3xl font-black text-blue-500 mb-8 uppercase italic tracking-tighter">Staff Login</h2>
+            <div class="space-y-4 max-w-sm mx-auto">
+                <input type="email" id="adminEmail" placeholder="Email" class="w-full">
+                <input type="password" id="adminPassword" placeholder="Password" class="w-full">
                 <button id="loginBtn" class="w-full bg-blue-600 hover:bg-blue-700 font-bold py-4 rounded-xl transition shadow-lg shadow-blue-600/20">Authorize</button>
             </div>
         </div>
 
-        <div id="admin-panel" class="hidden glass p-10 rounded-3xl border border-blue-600/30 shadow-2xl">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-xl font-bold text-blue-400 italic uppercase">Edit Ranking</h2>
-                <button id="logoutBtn" class="text-xs text-red-500 font-bold border border-red-500/30 px-2 py-1 rounded">Logout</button>
+        <div id="admin-panel" class="hidden glass p-8 rounded-3xl border border-blue-600/30 shadow-2xl">
+            <div class="flex justify-between items-center mb-8 border-b border-gray-800 pb-4">
+                <h2 class="text-xl font-black text-blue-400 italic uppercase">Ranking Dashboard</h2>
+                <button id="logoutBtn" class="text-xs text-red-500 font-black border border-red-500/20 px-4 py-2 rounded-lg hover:bg-red-500 hover:text-white transition">LOGOUT</button>
             </div>
             
-            <div class="space-y-4">
-                <input type="number" id="pPos" placeholder="Position (e.g. 1)" class="w-full bg-black/50 border border-gray-700 p-3 rounded-lg text-yellow-500 font-bold">
-                <input type="text" id="pName" placeholder="Player IGN" class="w-full bg-black/50 border border-gray-700 p-3 rounded-lg text-white">
-                <input type="text" id="pTier" placeholder="Points(e.g,1000)" class="w-full bg-black/50 border border-gray-700 p-3 rounded-lg text-white">
-                <input type="text" id="pMode" placeholder="Gamemode (e.g. Crystal)" class="w-full bg-black/50 border border-gray-700 p-3 rounded-lg text-white">
-                <input type="text" id="pHead" placeholder="Manual PNG Link" class="w-full bg-black/50 border border-gray-700 p-3 rounded-lg text-white">
-                <button id="saveBtn" class="w-full bg-green-600 hover:bg-green-700 font-black py-4 rounded-xl transition shadow-lg">Publish Update</button>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                    <div>
+                        <span class="mode-label">Leaderboard Position</span>
+                        <input type="number" id="pPos" placeholder="e.g. 1" class="w-full text-yellow-500 font-bold">
+                    </div>
+                    <div>
+                        <span class="mode-label">Player Username</span>
+                        <input type="text" id="pName" placeholder="IGN" class="w-full">
+                    </div>
+                    <div>
+                        <span class="mode-label">Transparent Skin Link (PNG)</span>
+                        <input type="text" id="pHead" placeholder="Manual Link" class="w-full">
+                    </div>
+                </div>
+
+                <div class="space-y-4 bg-black/30 p-4 rounded-2xl border border-gray-800">
+                    <h3 class="text-xs font-black text-gray-500 uppercase mb-2">Gamemode Tiers & Points</h3>
+                    
+                    <div class="flex space-x-2">
+                        <div class="w-full"><span class="mode-label">Sword Tier</span><input type="text" id="tSword" placeholder="HT3" class="w-full text-xs"></div>
+                        <div class="w-24"><span class="mode-label">PTS</span><input type="number" id="pSword" placeholder="0" class="w-full text-xs"></div>
+                    </div>
+                    <div class="flex space-x-2">
+                        <div class="w-full"><span class="mode-label">Nethpot Tier</span><input type="text" id="tNethpot" placeholder="LT1" class="w-full text-xs"></div>
+                        <div class="w-24"><span class="mode-label">PTS</span><input type="number" id="pNethpot" placeholder="0" class="w-full text-xs"></div>
+                    </div>
+                    <div class="flex space-x-2">
+                        <div class="w-full"><span class="mode-label">Crystal Tier</span><input type="text" id="tCrystal" placeholder="HT2" class="w-full text-xs"></div>
+                        <div class="w-24"><span class="mode-label">PTS</span><input type="number" id="pCrystal" placeholder="0" class="w-full text-xs"></div>
+                    </div>
+                    <div class="flex space-x-2">
+                        <div class="w-full"><span class="mode-label">Mace Tier</span><input type="text" id="tMace" placeholder="HT3" class="w-full text-xs"></div>
+                        <div class="w-24"><span class="mode-label">PTS</span><input type="number" id="pMace" placeholder="0" class="w-full text-xs"></div>
+                    </div>
+                    <div class="flex space-x-2">
+                        <div class="w-full"><span class="mode-label">UHC Tier</span><input type="text" id="tUHC" placeholder="LT2" class="w-full text-xs"></div>
+                        <div class="w-24"><span class="mode-label">PTS</span><input type="number" id="pUHC" placeholder="0" class="w-full text-xs"></div>
+                    </div>
+                </div>
             </div>
+
+            <button id="saveBtn" class="w-full mt-8 bg-green-600 hover:bg-green-700 font-black py-4 rounded-2xl transition shadow-xl shadow-green-900/20 uppercase tracking-widest">Update Master Profile</button>
         </div>
+        
+        <a href="index.html" class="block text-center mt-6 text-gray-600 hover:text-white transition text-xs font-bold uppercase tracking-widest">← Back to Leaderboard</a>
     </div>
 
     <script type="module" src="script.js"></script>
