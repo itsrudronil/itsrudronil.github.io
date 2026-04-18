@@ -98,7 +98,7 @@ if (tierBody) {
                             <span class="text-2xl font-black text-gray-100 uppercase italic tracking-tighter group-hover:text-blue-500 transition">${p.username}</span>
                             <div class="mt-3 grid grid-cols-3 gap-2">
                                 <span class="mode-tag">SWORD: ${p.modes.sword.tier}</span>
-                                <span class="mode-tag">POT: ${p.modes.nethpot.tier}</span>
+                                <span class="mode-tag">NETHPOT: ${p.modes.nethpot.tier}</span>
                                 <span class="mode-tag">CRYSTAL: ${p.modes.crystal.tier}</span>
                                 <span class="mode-tag">MACE: ${p.modes.mace.tier}</span>
                                 <span class="mode-tag">UHC: ${p.modes.uhc.tier}</span>
