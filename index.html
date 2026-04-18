@@ -3,31 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MC Tiers BD | Official Rankings</title>
+    <title>MC Tiers BD | Elite Player Rankings</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* দ্রুত কিছু ফিক্স যা style.css এ না থাকলেও কাজ করবে */
+        .mode-tag {
+            background: rgba(59, 130, 246, 0.08);
+            border: 1px solid rgba(59, 130, 246, 0.15);
+            color: #60a5fa;
+            font-size: 9px;
+            font-weight: 900;
+            padding: 2px 8px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            display: inline-block;
+            letter-spacing: 0.05em;
+        }
+    </style>
 </head>
-<body class="p-4 md:p-12">
+<body class="p-4 md:p-12 text-white">
 
-    <div class="max-w-5xl mx-auto flex justify-between items-center mb-12">
-        <div class="flex items-center space-x-3">
-            <div class="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center font-black text-2xl italic shadow-lg">M</div>
-            <h1 class="text-2xl font-black tracking-tighter uppercase italic text-white">CTIERS <span class="text-blue-500">BD</span></h1>
+    <div class="max-w-6xl mx-auto flex justify-between items-center mb-12">
+        <div class="flex items-center space-x-4">
+            <div class="w-14 h-14 bg-blue-600 rounded-2xl flex items-center justify-center font-black text-3xl italic shadow-2xl shadow-blue-600/30">M</div>
+            <div>
+                <h1 class="text-2xl font-black tracking-tighter uppercase italic leading-none">CTIERS <span class="text-blue-500">BD</span></h1>
+                <p class="text-[10px] text-gray-500 uppercase tracking-[0.3em] font-bold mt-1">Official Leaderboard</p>
+            </div>
         </div>
-        <a href="admin.html" class="text-gray-500 hover:text-blue-400 text-[10px] font-black uppercase tracking-widest transition">Admin Login</a>
+        <a href="admin.html" class="bg-gray-900/50 hover:bg-blue-600/10 border border-gray-800 hover:border-blue-500/30 px-6 py-2 rounded-xl text-gray-400 hover:text-blue-400 text-[10px] font-black uppercase tracking-widest transition-all duration-300">
+            Staff Portal
+        </a>
     </div>
 
-    <div class="max-w-5xl mx-auto border border-gray-800/50 rounded-3xl overflow-hidden shadow-2xl bg-[#0b0e14]">
-        <table class="w-full text-left">
+    <div class="max-w-6xl mx-auto border border-gray-800/50 rounded-[2.5rem] overflow-hidden shadow-2xl bg-[#0b0e14]/80 backdrop-blur-md">
+        <table class="w-full text-left border-collapse">
             <thead>
-                <tr class="bg-gray-900/80 text-gray-500 text-[10px] uppercase tracking-[0.3em] font-black border-b border-gray-800">
-                    <th class="px-8 py-6">Rank & Player</th>
-                    <th class="px-8 py-6 text-right">Combat Tier</th>
+                <tr class="bg-gray-900/60 text-gray-500 text-[10px] uppercase tracking-[0.4em] font-black border-b border-gray-800/50">
+                    <th class="px-10 py-8">Rank & Participant Profile</th>
+                    <th class="px-10 py-8 text-right">Master Score</th>
                 </tr>
             </thead>
-            <tbody id="tier-body" class="divide-y divide-gray-800/40">
-                </tbody>
+            <tbody id="tier-body" class="divide-y divide-gray-800/30">
+                <tr>
+                    <td colspan="2" class="p-20 text-center text-gray-600 font-bold uppercase tracking-widest animate-pulse">
+                        Syncing Database...
+                    </td>
+                </tr>
+            </tbody>
         </table>
+    </div>
+
+    <div class="max-w-6xl mx-auto mt-10 text-center">
+        <p class="text-[10px] text-gray-600 uppercase font-black tracking-widest opacity-50">
+            Powered by Firebase & Tailwind • Developed for MCTiers BD
+        </p>
     </div>
 
     <script type="module" src="script.js"></script>
