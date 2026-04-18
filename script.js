@@ -47,12 +47,12 @@ if (saveBtn) {
 
         // 5 Modes Data
         const modes = {
-            sword: { tier: document.getElementById('tSword').value || "N/A", pts: parseInt(document.getElementById('pSword').value) || 0 },
-            nethpot: { tier: document.getElementById('tNethpot').value || "N/A", pts: parseInt(document.getElementById('pNethpot').value) || 0 },
-            crystal: { tier: document.getElementById('tCrystal').value || "N/A", pts: parseInt(document.getElementById('pCrystal').value) || 0 },
-            mace: { tier: document.getElementById('tMace').value || "N/A", pts: parseInt(document.getElementById('pMace').value) || 0 },
-            uhc: { tier: document.getElementById('tUHC').value || "N/A", pts: parseInt(document.getElementById('pUHC').value) || 0 }
-        };
+    sword: { tier: document.getElementById('tSword').value, pts: parseInt(document.getElementById('pSword').value) || 0 },
+    nethpot: { tier: document.getElementById('tNethpot').value, pts: parseInt(document.getElementById('pNethpot').value) || 0 },
+    crystal: { tier: document.getElementById('tCrystal').value, pts: parseInt(document.getElementById('pCrystal').value) || 0 },
+    mace: { tier: document.getElementById('tMace').value, pts: parseInt(document.getElementById('pMace').value) || 0 },
+    uhc: { tier: document.getElementById('tUHC').value, pts: parseInt(document.getElementById('pUHC').value) || 0 }
+};
 
         const totalPoints = modes.sword.pts + modes.nethpot.pts + modes.crystal.pts + modes.mace.pts + modes.uhc.pts;
 
