@@ -16,7 +16,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-// --- Auth Handling ---
+// --- Auth Handling (Admin Panel Login) ---
 const loginBtn = document.getElementById('loginBtn');
 if (loginBtn) {
     loginBtn.onclick = async () => {
@@ -38,7 +38,7 @@ onAuthStateChanged(auth, (user) => {
 });
 if(document.getElementById('logoutBtn')) { document.getElementById('logoutBtn').onclick = () => signOut(auth); }
 
-// --- Save Logic ---
+// --- Save Logic (Admin Panel e data save korar jonno) ---
 const saveBtn = document.getElementById('saveBtn');
 if (saveBtn) {
     saveBtn.onclick = async () => {
@@ -73,7 +73,7 @@ if (saveBtn) {
     };
 }
 
-// --- আপনার চাওয়া অনুযায়ী শর্ট নাম ম্যাপিং ---
+// --- Short Name Dictionary (Hover korle jeta dekhabe) ---
 const modeShortNames = {
     sword: "SWORD",
     nethpot: "NETHPOT",
@@ -82,7 +82,7 @@ const modeShortNames = {
     uhc: "UHC"
 };
 
-// হেল্পার ফাংশন: টিয়ার কালার
+// --- Tier Color Helper Function ---
 function getTierColorClass(tier) {
     if (!tier || tier === "N/A" || tier === "Unranked") return "text-gray-600 bg-gray-900/50 border-gray-700/50";
     const normalizedTier = tier.toUpperCase();
@@ -91,7 +91,7 @@ function getTierColorClass(tier) {
     return "text-gray-100 bg-gray-800 border-gray-700";
 }
 
-// --- Display Logic with Short Name Tooltip ---
+// --- Display Logic with Fixed Tooltip (peer & peer-hover) ---
 const tierBody = document.getElementById('tier-body');
 if (tierBody) {
     const q = query(collection(db, "players"), orderBy("position", "asc"));
@@ -112,15 +112,15 @@ if (tierBody) {
                 const shortName = modeShortNames[modeKey] || modeKey.toUpperCase();
 
                 modePillarsHTML += `
-                    <div class="relative group/tip flex flex-col items-center gap-1.5 text-center shrink-0 cursor-pointer">
+                    <div class="relative flex flex-col items-center gap-1.5 text-center shrink-0 cursor-pointer">
                         
-                        <div class="absolute bottom-full mb-2 bg-gray-950/95 border border-blue-500/40 text-blue-400 font-black text-[9px] uppercase tracking-[0.2em] px-2 py-0.5 rounded shadow-2xl transition-all duration-200 opacity-0 scale-90 pointer-events-none group-hover/tip:opacity-100 group-hover/tip:scale-100 z-30 whitespace-nowrap">
+                        <img src="${iconSrc}" alt="${modeKey} icon" class="peer w-8 h-8 object-contain transition-transform duration-300 hover:scale-110 relative z-10" onerror="this.src='https://mctiers.com/assets/images/overall.png'">
+                        
+                        <div class="absolute bottom-[110%] left-1/2 -translate-x-1/2 mb-1 bg-gray-950/95 border border-blue-500/50 text-blue-400 font-black text-[10px] uppercase tracking-[0.2em] px-2 py-1 rounded shadow-2xl transition-all duration-200 opacity-0 pointer-events-none peer-hover:opacity-100 z-50 whitespace-nowrap">
                             ${shortName}
                         </div>
 
-                        <img src="${iconSrc}" alt="${modeKey} icon" class="w-8 h-8 object-contain transition-transform duration-300 group-hover/tip:scale-110" onerror="this.src='https://mctiers.com/assets/images/overall.png'">
-                        
-                        <span class="inline-block px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest ${colorClass} italic">
+                        <span class="inline-block px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest ${colorClass} italic mt-1">
                             ${mode.tier}
                         </span>
                     </div>
