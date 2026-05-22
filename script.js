@@ -4,19 +4,19 @@ import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from
 
 // ১. আপনার Firebase Config এখানে দিন
 const firebaseConfig = {
-  apiKey: "AIzaSyDAmbvBXIxr4StYtg5obkL7ScKadmAluXU",
-  authDomain: "tiers-a0f66.firebaseapp.com",
-  projectId: "tiers-a0f66",
-  storageBucket: "tiers-a0f66.firebasestorage.app",
-  messagingSenderId: "394254274051",
-  appId: "1:394254274051:web:b5604e1ff286b90f870836"
+    apiKey: "AIzaSyDAmbvBXIxr4StYtg5obkL7ScKadmAluXU",
+    authDomain: "tiers-a0f66.firebaseapp.com",
+    projectId: "tiers-a0f66",
+    storageBucket: "tiers-a0f66.firebasestorage.app",
+    messagingSenderId: "394254274051",
+    appId: "1:394254274051:web:b5604e1ff286b90f870836"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-// --- Auth Handling (Admin Panel) ---
+// --- Auth Handling ---
 const loginBtn = document.getElementById('loginBtn');
 if (loginBtn) {
     loginBtn.onclick = async () => {
@@ -38,7 +38,7 @@ onAuthStateChanged(auth, (user) => {
 });
 if(document.getElementById('logoutBtn')) { document.getElementById('logoutBtn').onclick = () => signOut(auth); }
 
-// --- Save Logic (5 Gamemodes) ---
+// --- Save Logic ---
 const saveBtn = document.getElementById('saveBtn');
 if (saveBtn) {
     saveBtn.onclick = async () => {
@@ -46,7 +46,6 @@ if (saveBtn) {
         const pos = document.getElementById('pPos').value;
         const head = document.getElementById('pHead').value.trim();
 
-        // 5 Modes Data - IDs must match admin.html
         const modes = {
             sword: { tier: document.getElementById('tSword').value || "N/A", pts: parseInt(document.getElementById('pSword').value) || 0 },
             nethpot: { tier: document.getElementById('tNethpot').value || "N/A", pts: parseInt(document.getElementById('pNethpot').value) || 0 },
@@ -74,17 +73,25 @@ if (saveBtn) {
     };
 }
 
-// --- Display Logic with MCTIERS Style Symbols ---
+// --- আপনার চাওয়া অনুযায়ী শর্ট নাম ম্যাপিং ---
+const modeShortNames = {
+    sword: "SWORD",
+    nethpot: "NETHPOT",
+    crystal: "CRYSTAL",
+    mace: "MACE",
+    uhc: "UHC"
+};
 
-// হেল্পার ফাংশন: টিয়ার অনুযায়ী কালার সেট করার জন্য
+// হেল্পার ফাংশন: টিয়ার কালার
 function getTierColorClass(tier) {
     if (!tier || tier === "N/A" || tier === "Unranked") return "text-gray-600 bg-gray-900/50 border-gray-700/50";
     const normalizedTier = tier.toUpperCase();
-    if (normalizedTier.startsWith('HT')) return "text-yellow-500 bg-yellow-500/10 border-yellow-500/20"; // Gold for High Tier
-    if (normalizedTier.startsWith('LT')) return "text-slate-400 bg-slate-400/10 border-slate-400/20"; // White/Grey for Low Tier
-    return "text-gray-100 bg-gray-800 border-gray-700"; // Default
+    if (normalizedTier.startsWith('HT')) return "text-yellow-500 bg-yellow-500/10 border-yellow-500/20";
+    if (normalizedTier.startsWith('LT')) return "text-slate-400 bg-slate-400/10 border-slate-400/20";
+    return "text-gray-100 bg-gray-800 border-gray-700";
 }
 
+// --- Display Logic with Short Name Tooltip ---
 const tierBody = document.getElementById('tier-body');
 if (tierBody) {
     const q = query(collection(db, "players"), orderBy("position", "asc"));
@@ -93,21 +100,26 @@ if (tierBody) {
         snapshot.forEach((doc) => {
             const p = doc.data();
             
-            // ১ নম্বর র‍্যাঙ্কের জন্য বিশেষ কালার
             let rankClass = p.position === 1 ? "text-yellow-500 font-black text-2xl shadow-yellow-500" : "text-gray-600 font-bold";
 
-            // প্রতিটি গেমমোডের জন্য 'পিল্লার' (Icon+Tier) তৈরি করা
             let modePillarsHTML = "";
             for (const modeKey in p.modes) {
                 const mode = p.modes[modeKey];
-                
-                // আপনার assets ফোল্ডার থেকে ছবি নেওয়া (ধরে নিচ্ছি ছবিগুলো .png ফরম্যাটে আছে)
                 const iconSrc = `assets/${modeKey}.png`;
                 const colorClass = getTierColorClass(mode.tier);
+                
+                // শর্ট নাম নেওয়া
+                const shortName = modeShortNames[modeKey] || modeKey.toUpperCase();
 
                 modePillarsHTML += `
-                    <div class="flex flex-col items-center gap-1.5 text-center shrink-0">
-                        <img src="${iconSrc}" alt="${modeKey} icon" class="w-8 h-8 object-contain" onerror="this.src='https://mctiers.com/assets/images/overall.png'">
+                    <div class="relative group/tip flex flex-col items-center gap-1.5 text-center shrink-0 cursor-pointer">
+                        
+                        <div class="absolute bottom-full mb-2 bg-gray-950/95 border border-blue-500/40 text-blue-400 font-black text-[9px] uppercase tracking-[0.2em] px-2 py-0.5 rounded shadow-2xl transition-all duration-200 opacity-0 scale-90 pointer-events-none group-hover/tip:opacity-100 group-hover/tip:scale-100 z-30 whitespace-nowrap">
+                            ${shortName}
+                        </div>
+
+                        <img src="${iconSrc}" alt="${modeKey} icon" class="w-8 h-8 object-contain transition-transform duration-300 group-hover/tip:scale-110" onerror="this.src='https://mctiers.com/assets/images/overall.png'">
+                        
                         <span class="inline-block px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest ${colorClass} italic">
                             ${mode.tier}
                         </span>
