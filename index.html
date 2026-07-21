@@ -3,65 +3,198 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rud Tiers | Elite Player Rankings</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Skill Issue SMP | Skill Issue, No Skill?</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
-    <style>
-        /* দ্রুত কিছু ফিক্স যা style.css এ না থাকলেও কাজ করবে */
-        .mode-tag {
-            background: rgba(59, 130, 246, 0.08);
-            border: 1px solid rgba(59, 130, 246, 0.15);
-            color: #60a5fa;
-            font-size: 9px;
-            font-weight: 900;
-            padding: 2px 8px;
-            border-radius: 6px;
-            text-transform: uppercase;
-            display: inline-block;
-            letter-spacing: 0.05em;
-        }
-    </style>
 </head>
-<body class="p-4 md:p-12 text-white">
+<body>
+    <!-- Background Stars -->
+    <div class="star-container">
+        <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
+    </div>
 
-    <div class="max-w-6xl mx-auto flex justify-between items-center mb-12">
-        <div class="flex items-center space-x-4">
-            <div class="w-14 h-14 bg-blue-600 rounded-2xl flex items-center justify-center font-black text-3xl italic shadow-2xl shadow-blue-600/30">R</div>
-            <div>
-                <h1 class="text-2xl font-black tracking-tighter uppercase italic leading-none">UDTIERS <span class="text-blue-500"></span></h1>
-                <p class="text-[10px] text-gray-500 uppercase tracking-[0.3em] font-bold mt-1">Official Leaderboard</p>
+    <!-- MAIN MENU SCREEN -->
+    <div id="main-content">
+        <div id="title-section">
+            <h1 class="neon-yellow">SKILL ISSUE</h1>
+            <h2 class="neon-white">SMP</h2>
+        </div>
+
+        <div id="button-section">
+            <div class="button-row">
+                <button class="menu-btn" onclick="handleMenuClick(this, 'PLAYER INFO')">PLAYER INFO</button>
+                <button class="menu-btn" onclick="handleMenuClick(this, 'SMP RULES')">SMP RULES</button>
+            </div>
+            <div class="button-row">
+                <button class="menu-btn" onclick="handleMenuClick(this, 'BUILDS')">BUILDS</button>
             </div>
         </div>
-        <a href="admin.html" class="bg-gray-900/50 hover:bg-blue-600/10 border border-gray-800 hover:border-blue-500/30 px-6 py-2 rounded-xl text-gray-400 hover:text-blue-400 text-[10px] font-black uppercase tracking-widest transition-all duration-300">
-            Staff Portal
-        </a>
     </div>
 
-    <div class="max-w-6xl mx-auto border border-gray-800/50 rounded-[2.5rem] overflow-hidden shadow-2xl bg-[#0b0e14]/80 backdrop-blur-md">
-        <table class="w-full text-left border-collapse">
-            <thead>
-                <tr class="bg-gray-900/60 text-gray-500 text-[10px] uppercase tracking-[0.4em] font-black border-b border-gray-800/50">
-                    <th class="px-10 py-8">Rank & Participant Profile</th>
-                    <th class="px-10 py-8 text-right">Master Score</th>
-                </tr>
-            </thead>
-            <tbody id="tier-body" class="divide-y divide-gray-800/30">
-                <tr>
-                    <td colspan="2" class="p-20 text-center text-gray-600 font-bold uppercase tracking-widest animate-pulse">
-                        Syncing Database...
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+    <!-- PLAYER INFO GUI SCREEN -->
+    <div id="player-info-gui" class="hidden-gui">
+        <h1 class="build-main-title">PLAYER RANKINGS</h1>
+        
+        <div class="player-list-container">
+            <!-- Player 1 -->
+            <div class="player-card">
+                <div class="player-name-section">
+                    <span class="rank gold-neon">1</span>
+                    <span class="p-name">Its_Mahir</span>
+                </div>
+                <button class="info-btn" onclick="showStats('Its_Mahir', '1', '0', '4h 36min', '1')">INFO</button>
+            </div>
+
+            <!-- Player 2 -->
+            <div class="player-card">
+                <div class="player-name-section">
+                    <span class="rank silver-neon">2</span>
+                    <span class="p-name">Its_Sinzo9</span>
+                </div>
+                <button class="info-btn" onclick="showStats('Its_Sinzo9', '1', '4', '2h 24min', '0.25')">INFO</button>
+            </div>
+
+            <!-- Player 3 -->
+            <div class="player-card">
+                <div class="player-name-section">
+                    <span class="rank silver-neon">3</span>
+                    <span class="p-name">Its_Rudronil</span>
+                </div>
+                <button class="info-btn" onclick="showStats('Its_Rudronil', '0', '3', '3h 34min', '0')">INFO</button>
+            </div>
+
+            <!-- Player 4 -->
+            <div class="player-card">
+                <div class="player-name-section">
+                    <span class="rank silver-neon">4</span>
+                    <span class="p-name">Araf_XD</span>
+                </div>
+                <button class="info-btn" onclick="showStats('Araf_XD', '0', '6', '2h 2min', '0')">INFO</button>
+            </div>
+        </div>
+
+        <div class="update-notice">*player info will update every week</div>
+
+        <button class="menu-btn back-btn" onclick="closeGui('player-info-gui')">BACK TO MENU</button>
     </div>
 
-    <div class="max-w-6xl mx-auto mt-10 text-center">
-        <p class="text-[10px] text-gray-600 uppercase font-black tracking-widest opacity-50">
-            Developed for RUDTiers BD x India and other countries
-        </p>
+    <!-- PLAYER STATS MODAL (Premium Popup Box) -->
+    <div id="stats-modal" class="hidden-modal">
+        <div class="stats-box premium-glass">
+            <div class="premium-glow-border"></div>
+            <h2 id="stat-player-name" class="premium-title">Player Name</h2>
+            <div class="stat-grid">
+                <div class="stat-item premium-card">
+                    <span class="stat-label">KILL</span>
+                    <span class="stat-val" id="stat-kill">0</span>
+                </div>
+                <div class="stat-item premium-card">
+                    <span class="stat-label">DEATH</span>
+                    <span class="stat-val" id="stat-death">0</span>
+                </div>
+                <div class="stat-item premium-card">
+                    <span class="stat-label">PLAYTIME</span>
+                    <span class="stat-val" id="stat-time">0h</span>
+                </div>
+                <div class="stat-item premium-card kdr-item">
+                    <span class="stat-label kdr-label">KDR</span>
+                    <span class="stat-val kdr-red-neon" id="stat-kdr">0</span>
+                </div>
+            </div>
+            <button class="modal-close-btn premium-btn" onclick="closeStats()">CLOSE</button>
+        </div>
     </div>
 
-    <script type="module" src="script.js"></script>
+    <!-- RULES GUI SCREEN -->
+    <div id="rules-gui" class="hidden-gui">
+        <div id="rules-title-section">
+            <h1 class="rules-title">RULES</h1>
+        </div>
+        
+        <div id="rules-list">
+            <div class="rule-item">
+                <span class="rule-num">1st Rule -</span> No builds can be blown up.
+            </div>
+            <div class="rule-item">
+                <span class="rule-num">2nd Rule -</span> You can only PvP at night.
+            </div>
+            <div class="rule-item">
+                <span class="rule-num">3rd Rule -</span> Goods cannot be stolen from anyone's chest.
+            </div>
+            <div class="more-rules">More rules coming soon...</div>
+            <button class="menu-btn back-btn" onclick="closeGui('rules-gui')">BACK TO MENU</button>
+        </div>
+    </div>
+
+    <!-- BUILDS GUI SCREEN -->
+    <div id="builds-gui" class="hidden-gui">
+        <div id="builds-header">
+            <h1 class="build-main-title">1st BUILD - FOUNTAIN</h1>
+            
+            <div class="build-card-info">
+                <p class="build-desc">This is the very first official build constructed in Skill Issue SMP.</p>
+                <div class="build-stats">
+                    <span><strong>Date:</strong> 21 July</span>
+                    <span><strong>Time Taken:</strong> 2 Hours</span>
+                    <span><strong>Builder:</strong> Its_Mahir</span>
+                    <span><strong>Helper:</strong> None</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4 Photos Layout -->
+        <div class="build-gallery">
+            <div class="img-box"><img src="https://i.postimg.cc/gjWL7csT/Screenshot-2026-07-21-003512.png" alt="Fountain 1" class="build-img"></div>
+            <div class="img-box"><img src="https://i.postimg.cc/3NT0qr1b/Screenshot-2026-07-21-003023.png" alt="Fountain 2" class="build-img"></div>
+            <div class="img-box"><img src="https://i.postimg.cc/J0LHF7xS/Screenshot-2026-07-21-002909.png" alt="Fountain 3" class="build-img"></div>
+            <div class="img-box"><img src="https://i.postimg.cc/JnJBKHNB/Screenshot-2026-07-21-002803.png" alt="Fountain 4" class="build-img"></div>
+        </div>
+
+        <button class="menu-btn back-btn" onclick="closeGui('builds-gui')">BACK TO MENU</button>
+    </div>
+
+    <!-- JavaScript logic -->
+    <script>
+        function handleMenuClick(btn, actionText) {
+            if (actionText === 'SMP RULES') {
+                openGui('rules-gui');
+            } else if (actionText === 'BUILDS') {
+                openGui('builds-gui');
+            } else if (actionText === 'PLAYER INFO') {
+                openGui('player-info-gui');
+            }
+        }
+
+        function openGui(guiId) {
+            document.getElementById('main-content').style.display = 'none';
+            let gui = document.getElementById(guiId);
+            gui.classList.remove('hidden-gui');
+            gui.classList.remove('active');
+            void gui.offsetWidth; // Refresh the DOM
+            gui.classList.add('active');
+        }
+
+        function closeGui(guiId) {
+            let gui = document.getElementById(guiId);
+            gui.classList.add('hidden-gui');
+            gui.classList.remove('active');
+            document.getElementById('main-content').style.display = 'flex';
+        }
+
+        /* Stats Modal Logic */
+        function showStats(name, kill, death, time, kdr) {
+            document.getElementById('stat-player-name').innerText = name;
+            document.getElementById('stat-kill').innerText = kill;
+            document.getElementById('stat-death').innerText = death;
+            document.getElementById('stat-time').innerText = time;
+            document.getElementById('stat-kdr').innerText = kdr;
+            
+            let modal = document.getElementById('stats-modal');
+            modal.style.display = 'flex';
+        }
+
+        function closeStats() {
+            document.getElementById('stats-modal').style.display = 'none';
+        }
+    </script>
 </body>
 </html>
