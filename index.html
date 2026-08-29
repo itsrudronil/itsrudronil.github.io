@@ -3,197 +3,220 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skill Issue SMP | Skill Issue, No Skill?</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Interactive Credit Card Designer</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        /* Credit Card Preview Design */
+        .credit-card {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #1d2671, #c33764);
+            border-radius: 15px;
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+            transition: background 0.3s ease;
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chip {
+            width: 45px;
+            height: 35px;
+            background: linear-gradient(135deg, #ffe066, #f59f00);
+            border-radius: 6px;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .card-number {
+            font-size: 22px;
+            letter-spacing: 3px;
+            word-spacing: 5px;
+            font-family: monospace;
+        }
+
+        .card-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .label {
+            font-size: 9px;
+            text-transform: uppercase;
+            opacity: 0.7;
+        }
+
+        .value {
+            font-size: 14px;
+            font-family: monospace;
+            text-transform: uppercase;
+        }
+
+        /* Form Inputs */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus, select:focus {
+            border-color: #1d2671;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+    </style>
 </head>
 <body>
-    <!-- Background Stars -->
-    <div class="star-container">
-        <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
-    </div>
 
-    <!-- MAIN MENU SCREEN -->
-    <div id="main-content">
-        <div id="title-section">
-            <h1 class="neon-yellow">SKILL ISSUE</h1>
-            <h2 class="neon-white">SMP</h2>
-        </div>
+    <div class="container">
+        <h2>Credit Card Customizer</h2>
 
-        <div id="button-section">
-            <div class="button-row">
-                <button class="menu-btn" onclick="handleMenuClick(this, 'PLAYER INFO')">PLAYER INFO</button>
-                <button class="menu-btn" onclick="handleMenuClick(this, 'SMP RULES')">SMP RULES</button>
+        <div class="credit-card" id="cardBackground">
+            <div class="card-top">
+                <div class="chip"></div>
+                <div class="logo" id="cardLogo">VISA</div>
             </div>
-            <div class="button-row">
-                <button class="menu-btn" onclick="handleMenuClick(this, 'BUILDS')">BUILDS</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- PLAYER INFO GUI SCREEN -->
-    <div id="player-info-gui" class="hidden-gui">
-        <h1 class="build-main-title">PLAYER RANKINGS</h1>
-        
-        <div class="player-list-container">
-            <!-- Player 1 -->
-            <div class="player-card">
-                <div class="player-name-section">
-                    <span class="rank gold-neon">1</span>
-                    <span class="p-name">Its_Mahir</span>
+            <div class="card-number" id="previewNumber">#### #### #### ####</div>
+            <div class="card-details">
+                <div>
+                    <div class="label">Card Holder</div>
+                    <div class="value" id="previewName">Full Name</div>
                 </div>
-                <button class="info-btn" onclick="showStats('Its_Mahir', '1', '0', '4h 36min', '1')">INFO</button>
-            </div>
-
-            <!-- Player 2 -->
-            <div class="player-card">
-                <div class="player-name-section">
-                    <span class="rank silver-neon">2</span>
-                    <span class="p-name">Its_Sinzo9</span>
+                <div>
+                    <div class="label">Expires</div>
+                    <div class="value" id="previewExpiry">MM/YY</div>
                 </div>
-                <button class="info-btn" onclick="showStats('Its_Sinzo9', '1', '4', '2h 24min', '0.25')">INFO</button>
-            </div>
-
-            <!-- Player 3 -->
-            <div class="player-card">
-                <div class="player-name-section">
-                    <span class="rank silver-neon">3</span>
-                    <span class="p-name">Its_Rudronil</span>
-                </div>
-                <button class="info-btn" onclick="showStats('Its_Rudronil', '0', '3', '3h 34min', '0')">INFO</button>
-            </div>
-
-            <!-- Player 4 -->
-            <div class="player-card">
-                <div class="player-name-section">
-                    <span class="rank silver-neon">4</span>
-                    <span class="p-name">Araf_XD</span>
-                </div>
-                <button class="info-btn" onclick="showStats('Araf_XD', '0', '6', '2h 2min', '0')">INFO</button>
             </div>
         </div>
 
-        <div class="update-notice">*player info will update every week</div>
+        <div class="form-group">
+            <label for="cardType">Card Network</label>
+            <select id="cardType" onchange="updateCardType()">
+                <option value="visa">Visa</option>
+                <option value="mastercard">Mastercard</option>
+            </select>
+        </div>
 
-        <button class="menu-btn back-btn" onclick="closeGui('player-info-gui')">BACK TO MENU</button>
-    </div>
+        <div class="form-group">
+            <label for="cardNumberInput">Card Number</label>
+            <input type="text" id="cardNumberInput" maxlength="19" placeholder="0000 0000 0000 0000" oninput="updateNumber(this)">
+        </div>
 
-    <!-- PLAYER STATS MODAL (Premium Popup Box) -->
-    <div id="stats-modal" class="hidden-modal">
-        <div class="stats-box premium-glass">
-            <div class="premium-glow-border"></div>
-            <h2 id="stat-player-name" class="premium-title">Player Name</h2>
-            <div class="stat-grid">
-                <div class="stat-item premium-card">
-                    <span class="stat-label">KILL</span>
-                    <span class="stat-val" id="stat-kill">0</span>
-                </div>
-                <div class="stat-item premium-card">
-                    <span class="stat-label">DEATH</span>
-                    <span class="stat-val" id="stat-death">0</span>
-                </div>
-                <div class="stat-item premium-card">
-                    <span class="stat-label">PLAYTIME</span>
-                    <span class="stat-val" id="stat-time">0h</span>
-                </div>
-                <div class="stat-item premium-card kdr-item">
-                    <span class="stat-label kdr-label">KDR</span>
-                    <span class="stat-val kdr-red-neon" id="stat-kdr">0</span>
-                </div>
+        <div class="form-group">
+            <label for="cardHolderInput">Cardholder Name</label>
+            <input type="text" id="cardHolderInput" maxlength="25" placeholder="John Doe" oninput="updateName(this)">
+        </div>
+
+        <div class="form-row">
+            <div class="form-group" style="flex: 1;">
+                <label for="expiryInput">Expiration Date</label>
+                <input type="text" id="expiryInput" maxlength="5" placeholder="MM/YY" oninput="updateExpiry(this)">
             </div>
-            <button class="modal-close-btn premium-btn" onclick="closeStats()">CLOSE</button>
+            <div class="form-group" style="flex: 1;">
+                <label for="cvvInput">CVV</label>
+                <input type="password" id="cvvInput" maxlength="4" placeholder="123">
+            </div>
         </div>
     </div>
 
-    <!-- RULES GUI SCREEN -->
-    <div id="rules-gui" class="hidden-gui">
-        <div id="rules-title-section">
-            <h1 class="rules-title">RULES</h1>
-        </div>
-        
-        <div id="rules-list">
-            <div class="rule-item">
-                <span class="rule-num">1st Rule -</span> No builds can be blown up.
-            </div>
-            <div class="rule-item">
-                <span class="rule-num">2nd Rule -</span> You can only PvP at night.
-            </div>
-            <div class="rule-item">
-                <span class="rule-num">3rd Rule -</span> Goods cannot be stolen from anyone's chest.
-            </div>
-            <div class="more-rules">More rules coming soon...</div>
-            <button class="menu-btn back-btn" onclick="closeGui('rules-gui')">BACK TO MENU</button>
-        </div>
-    </div>
-
-    <!-- BUILDS GUI SCREEN -->
-    <div id="builds-gui" class="hidden-gui">
-        <div id="builds-header">
-            <h1 class="build-main-title">1st BUILD - FOUNTAIN</h1>
-            
-            <div class="build-card-info">
-                <p class="build-desc">This is the very first official build constructed in Skill Issue SMP.</p>
-                <div class="build-stats">
-                    <span><strong>Date:</strong> 21 July</span>
-                    <span><strong>Time Taken:</strong> 2 Hours</span>
-                    <span><strong>Builder:</strong> Its_Mahir</span>
-                    <span><strong>Helper:</strong> None</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- 4 Photos Layout -->
-        <div class="build-gallery">
-            <div class="img-box"><img src="https://i.postimg.cc/gjWL7csT/Screenshot-2026-07-21-003512.png" alt="Fountain 1" class="build-img"></div>
-            <div class="img-box"><img src="https://i.postimg.cc/3NT0qr1b/Screenshot-2026-07-21-003023.png" alt="Fountain 2" class="build-img"></div>
-            <div class="img-box"><img src="https://i.postimg.cc/J0LHF7xS/Screenshot-2026-07-21-002909.png" alt="Fountain 3" class="build-img"></div>
-            <div class="img-box"><img src="https://i.postimg.cc/JnJBKHNB/Screenshot-2026-07-21-002803.png" alt="Fountain 4" class="build-img"></div>
-        </div>
-
-        <button class="menu-btn back-btn" onclick="closeGui('builds-gui')">BACK TO MENU</button>
-    </div>
-
-    <!-- JavaScript logic -->
     <script>
-        function handleMenuClick(btn, actionText) {
-            if (actionText === 'SMP RULES') {
-                openGui('rules-gui');
-            } else if (actionText === 'BUILDS') {
-                openGui('builds-gui');
-            } else if (actionText === 'PLAYER INFO') {
-                openGui('player-info-gui');
+        function updateNumber(element) {
+            let value = element.value.replace(/\D/g, '').substring(0, 16);
+            let formattedValue = value.match(/.{1,4}/g)?.join(' ') || '#### #### #### ####';
+            document.getElementById('previewNumber').innerText = formattedValue;
+            element.value = formattedValue.trim();
+        }
+
+        function updateName(element) {
+            let value = element.value;
+            document.getElementById('previewName').innerText = value || 'Full Name';
+        }
+
+        function updateExpiry(element) {
+            let value = element.value.replace(/\D/g, '').substring(0, 4);
+            if (value.length >= 3) {
+                value = value.substring(0, 2) + '/' + value.substring(2);
             }
+            document.getElementById('previewExpiry').innerText = value || 'MM/YY';
+            element.value = value;
         }
 
-        function openGui(guiId) {
-            document.getElementById('main-content').style.display = 'none';
-            let gui = document.getElementById(guiId);
-            gui.classList.remove('hidden-gui');
-            gui.classList.remove('active');
-            void gui.offsetWidth; // Refresh the DOM
-            gui.classList.add('active');
-        }
+        function updateCardType() {
+            const type = document.getElementById('cardType').value;
+            const logo = document.getElementById('cardLogo');
+            const cardBg = document.getElementById('cardBackground');
 
-        function closeGui(guiId) {
-            let gui = document.getElementById(guiId);
-            gui.classList.add('hidden-gui');
-            gui.classList.remove('active');
-            document.getElementById('main-content').style.display = 'flex';
-        }
-
-        /* Stats Modal Logic */
-        function showStats(name, kill, death, time, kdr) {
-            document.getElementById('stat-player-name').innerText = name;
-            document.getElementById('stat-kill').innerText = kill;
-            document.getElementById('stat-death').innerText = death;
-            document.getElementById('stat-time').innerText = time;
-            document.getElementById('stat-kdr').innerText = kdr;
-            
-            let modal = document.getElementById('stats-modal');
-            modal.style.display = 'flex';
-        }
-
-        function closeStats() {
-            document.getElementById('stats-modal').style.display = 'none';
+            if (type === 'visa') {
+                logo.innerText = 'VISA';
+                cardBg.style.background = 'linear-gradient(135deg, #1d2671, #c33764)';
+            } else if (type === 'mastercard') {
+                logo.innerText = 'MASTERCARD';
+                cardBg.style.background = 'linear-gradient(135deg, #f2994a, #f2c94c)';
+            }
         }
     </script>
 </body>
