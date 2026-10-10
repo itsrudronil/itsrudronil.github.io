@@ -1,223 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Credit Card Designer</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: #f0f2f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 450px;
-        }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 25px;
-            color: #333;
-        }
-
-        /* Credit Card Preview Design */
-        .credit-card {
-            width: 100%;
-            height: 200px;
-            background: linear-gradient(135deg, #1d2671, #c33764);
-            border-radius: 15px;
-            color: white;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-            margin-bottom: 25px;
-            position: relative;
-            overflow: hidden;
-            transition: background 0.3s ease;
-        }
-
-        .card-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .chip {
-            width: 45px;
-            height: 35px;
-            background: linear-gradient(135deg, #ffe066, #f59f00);
-            border-radius: 6px;
-        }
-
-        .logo {
-            font-size: 20px;
-            font-weight: bold;
-            letter-spacing: 1px;
-        }
-
-        .card-number {
-            font-size: 22px;
-            letter-spacing: 3px;
-            word-spacing: 5px;
-            font-family: monospace;
-        }
-
-        .card-details {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-        }
-
-        .label {
-            font-size: 9px;
-            text-transform: uppercase;
-            opacity: 0.7;
-        }
-
-        .value {
-            font-size: 14px;
-            font-family: monospace;
-            text-transform: uppercase;
-        }
-
-        /* Form Inputs */
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            font-size: 13px;
-            color: #666;
-            margin-bottom: 5px;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 14px;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        input:focus, select:focus {
-            border-color: #1d2671;
-        }
-
-        .form-row {
-            display: flex;
-            gap: 15px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NEXUS Player</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div class="grid-bg"></div>
 
-    <div class="container">
-        <h2>Credit Card Customizer</h2>
+<!-- APP -->
+<main id="app">
+  <header class="top">
+    <h1 class="logo small">NEXUS<span>player</span></h1>
+    <nav class="tabs">
+      <button class="tab active" data-mode="live">Live</button>
+      <button class="tab" data-mode="vod">Movies</button>
+    </nav>
+  </header>
 
-        <div class="credit-card" id="cardBackground">
-            <div class="card-top">
-                <div class="chip"></div>
-                <div class="logo" id="cardLogo">VISA</div>
-            </div>
-            <div class="card-number" id="previewNumber">#### #### #### ####</div>
-            <div class="card-details">
-                <div>
-                    <div class="label">Card Holder</div>
-                    <div class="value" id="previewName">Full Name</div>
-                </div>
-                <div>
-                    <div class="label">Expires</div>
-                    <div class="value" id="previewExpiry">MM/YY</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="cardType">Card Network</label>
-            <select id="cardType" onchange="updateCardType()">
-                <option value="visa">Visa</option>
-                <option value="mastercard">Mastercard</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="cardNumberInput">Card Number</label>
-            <input type="text" id="cardNumberInput" maxlength="19" placeholder="0000 0000 0000 0000" oninput="updateNumber(this)">
-        </div>
-
-        <div class="form-group">
-            <label for="cardHolderInput">Cardholder Name</label>
-            <input type="text" id="cardHolderInput" maxlength="25" placeholder="John Doe" oninput="updateName(this)">
-        </div>
-
-        <div class="form-row">
-            <div class="form-group" style="flex: 1;">
-                <label for="expiryInput">Expiration Date</label>
-                <input type="text" id="expiryInput" maxlength="5" placeholder="MM/YY" oninput="updateExpiry(this)">
-            </div>
-            <div class="form-group" style="flex: 1;">
-                <label for="cvvInput">CVV</label>
-                <input type="password" id="cvvInput" maxlength="4" placeholder="123">
-            </div>
-        </div>
+  <section class="stage">
+    <div class="screen">
+      <video id="video" controls playsinline></video>
+      <div id="nowPlaying" class="now">Pick a channel to start</div>
     </div>
+  </section>
 
-    <script>
-        function updateNumber(element) {
-            let value = element.value.replace(/\D/g, '').substring(0, 16);
-            let formattedValue = value.match(/.{1,4}/g)?.join(' ') || '#### #### #### ####';
-            document.getElementById('previewNumber').innerText = formattedValue;
-            element.value = formattedValue.trim();
-        }
+  <section class="browser">
+    <input id="search" class="search" type="search" placeholder="Search channels…">
+    <div id="cats" class="cats"></div>
+    <div id="list" class="list"></div>
+  </section>
+</main>
 
-        function updateName(element) {
-            let value = element.value;
-            document.getElementById('previewName').innerText = value || 'Full Name';
-        }
-
-        function updateExpiry(element) {
-            let value = element.value.replace(/\D/g, '').substring(0, 4);
-            if (value.length >= 3) {
-                value = value.substring(0, 2) + '/' + value.substring(2);
-            }
-            document.getElementById('previewExpiry').innerText = value || 'MM/YY';
-            element.value = value;
-        }
-
-        function updateCardType() {
-            const type = document.getElementById('cardType').value;
-            const logo = document.getElementById('cardLogo');
-            const cardBg = document.getElementById('cardBackground');
-
-            if (type === 'visa') {
-                logo.innerText = 'VISA';
-                cardBg.style.background = 'linear-gradient(135deg, #1d2671, #c33764)';
-            } else if (type === 'mastercard') {
-                logo.innerText = 'MASTERCARD';
-                cardBg.style.background = 'linear-gradient(135deg, #f2994a, #f2c94c)';
-            }
-        }
-    </script>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js"></script>
+<script src="index.js"></script>
 </body>
 </html>
